@@ -4,13 +4,14 @@ import { ContactList } from './ContactList/ContactList';
 import { Conteiner } from './Conteiner.styled';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { selectContacts } from 'Redux/Contacts/Selectors';
+import { selectContacts, selectIsLoading } from 'Redux/Contacts/Selectors';
 import { useEffect } from 'react';
 import { fetchContacts } from 'Redux/Operations';
 
 export const App = () => {
   const contacts = useSelector(selectContacts);
   const dispatch = useDispatch();
+  const isLoading = useSelector(selectIsLoading);
 
   useEffect(() => {
     dispatch(fetchContacts());
@@ -26,6 +27,7 @@ export const App = () => {
         {contacts.length > 0 && <Filter />}
 
         {contacts.length > 0 && <ContactList />}
+        {isLoading && <p>Loading</p>}
       </div>
     </Conteiner>
   );

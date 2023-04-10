@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Forma, FormButton, FormField } from './ContactForm.styled';
 import { useDispatch } from 'react-redux';
-import { onSubmitForm } from 'Redux/Contacts/Slice';
+// import { onSubmitForm } from 'Redux/Contacts/Slice';
+import { fetchaddContact } from 'Redux/Operations';
 
 export const ContactForm = () => {
   const [name, setName] = useState('');
@@ -24,14 +25,24 @@ export const ContactForm = () => {
         break;
     }
   };
-
-  const hundleSubmit = e => {
-    e.preventDefault();
+  const hundleSubmit = event => {
+    event.preventDefault();
     const stateValue = { name, number };
-    dispatch(onSubmitForm({ ...stateValue }));
-    setName('');
-    setNumber('');
+
+    // const form = event.target;
+    // console.log(event.target.name.value);
+    dispatch(fetchaddContact(stateValue));
+
+    // form.reset();
   };
+
+  // const hundleSubmit = e => {
+  //   e.preventDefault();
+  //   const stateValue = { name, number };
+  //   dispatch(onSubmitForm({ ...stateValue }));
+  //   setName('');
+  //   setNumber('');
+  // };
   return (
     <Forma onSubmit={hundleSubmit}>
       <FormField>

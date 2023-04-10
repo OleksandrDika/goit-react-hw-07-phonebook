@@ -1,5 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchContacts } from 'Redux/Operations';
+import {
+  fetchContacts,
+  fetchaddContact,
+  fetchdeleteContact,
+} from 'Redux/Operations';
 
 import { nanoid } from 'nanoid';
 
@@ -46,12 +50,44 @@ export const ContactsSlice = createSlice({
     [fetchContacts.fulfilled](state, action) {
       state.isLoading = false;
       state.error = null;
+
       state.items = action.payload;
     },
     [fetchContacts.rejected](state, action) {
       state.isLoading = false;
       state.error = action.payload;
       alert(`${state.error}`);
+    },
+    [fetchaddContact.pending](state, action) {
+      state.isLoading = true;
+    },
+    [fetchaddContact.fulfilled](state, action) {
+      state.isLoading = false;
+      state.error = null;
+      console.log(action.payload);
+
+      state.items.push(action.payload);
+    },
+    [fetchaddContact.rejected](state, action) {
+      state.isLoading = false;
+      state.error = action.payload;
+      alert(`${state.error}`);
+    },
+
+    [fetchdeleteContact.pending](state) {
+      state.isLoading = true;
+    },
+    [fetchdeleteContact.fulfilled](state, action) {
+      state.isLoading = false;
+      state.error = null;
+      const index = state.items.findIndex(
+        contact => contact.id === action.payload.id
+      );
+      state.items.splice(index, 1);
+    },
+    [fetchdeleteContact.rejected](state, action) {
+      state.isLoading = false;
+      state.error = action.payload;
     },
   },
 });
