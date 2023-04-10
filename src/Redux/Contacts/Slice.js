@@ -88,6 +88,7 @@ export const ContactsSlice = createSlice({
     [fetchdeleteContact.rejected](state, action) {
       state.isLoading = false;
       state.error = action.payload;
+      alert(`${state.error}`);
     },
   },
 });
