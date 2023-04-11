@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Forma, FormButton, FormField } from './ContactForm.styled';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { fetchaddContact } from 'Redux/Contacts/Operations';
+import { selectContacts } from 'Redux/Contacts/Selectors';
 
 export const ContactForm = () => {
   const [name, setName] = useState('');
@@ -25,9 +26,20 @@ export const ContactForm = () => {
         break;
     }
   };
+  const contacts = useSelector(selectContacts);
   const hundleSubmit = event => {
     event.preventDefault();
     const stateValue = { name, number };
+    const sameNames = contacts.some(
+      contact => contact.name.toLowerCase() === name.toLowerCase()
+    );
+    if (sameNames) {
+      alert(`${name}is already in contacts`);
+      setName('');
+      setNumber('');
+      return;
+    }
+
     dispatch(fetchaddContact(stateValue));
     setName('');
     setNumber('');
