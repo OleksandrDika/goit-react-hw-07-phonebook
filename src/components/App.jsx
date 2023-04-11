@@ -6,7 +6,7 @@ import { Conteiner } from './Conteiner.styled';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectContacts, selectIsLoading } from 'Redux/Contacts/Selectors';
 import { useEffect } from 'react';
-import { fetchContacts } from 'Redux/Operations';
+import { fetchContacts } from 'Redux/Contacts/Operations';
 
 export const App = () => {
   const contacts = useSelector(selectContacts);

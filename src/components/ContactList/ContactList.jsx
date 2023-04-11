@@ -3,7 +3,7 @@ import { ButtonList, Item } from './ContactList.styled';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { selectContacts, selectFilter } from 'Redux/Contacts/Selectors';
-import { fetchdeleteContact } from 'Redux/Operations';
+import { fetchdeleteContact } from 'Redux/Contacts/Operations';
 
 export const ContactList = () => {
   const dispatch = useDispatch();
@@ -22,10 +22,9 @@ export const ContactList = () => {
       {visibleContacts.map(item => {
         return (
           <Item key={item.id}>
-            {item.name}:{item.phone}
+            {item.name}:{item.number}
             <ButtonList
               type="button"
-              // onClick={handleDelete}
               onClick={() => dispatch(fetchdeleteContact(item.id))}
             >
               Delete

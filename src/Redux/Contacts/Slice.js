@@ -3,9 +3,7 @@ import {
   fetchContacts,
   fetchaddContact,
   fetchdeleteContact,
-} from 'Redux/Operations';
-
-import { nanoid } from 'nanoid';
+} from 'Redux/Contacts/Operations';
 
 export const ContactsSlice = createSlice({
   name: 'contacts',
@@ -16,28 +14,6 @@ export const ContactsSlice = createSlice({
     filter: '',
   },
   reducers: {
-    onSubmitForm: {
-      reducer: (state, { payload }) => {
-        const sameNames = state.items.some(
-          contact => contact.name.toLowerCase() === payload.name.toLowerCase()
-        );
-        if (sameNames) {
-          alert(`${payload.name}is already in contacts`);
-          return;
-        }
-        state.items = [...state.items, payload];
-      },
-      prepare: newContact => {
-        return {
-          payload: { ...newContact, id: nanoid() },
-        };
-      },
-    },
-
-    deleteContact: (state, { payload }) => {
-      state.items = state.items.filter(contact => contact.id !== payload);
-    },
-
     changeFilter: (state, { payload }) => {
       state.filter = payload;
     },
@@ -45,7 +21,6 @@ export const ContactsSlice = createSlice({
   extraReducers: {
     [fetchContacts.pending](state, action) {
       state.isLoading = true;
-      console.log(state.isLoading);
     },
     [fetchContacts.fulfilled](state, action) {
       state.isLoading = false;
@@ -64,7 +39,6 @@ export const ContactsSlice = createSlice({
     [fetchaddContact.fulfilled](state, action) {
       state.isLoading = false;
       state.error = null;
-      console.log(action.payload);
 
       state.items.push(action.payload);
     },
