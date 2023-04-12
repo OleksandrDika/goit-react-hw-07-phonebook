@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { fetchaddContact } from 'Redux/Contacts/Operations';
 import { selectContacts } from 'Redux/Contacts/Selectors';
+import { toast } from 'react-hot-toast';
 
 export const ContactForm = () => {
   const [name, setName] = useState('');
@@ -34,7 +35,7 @@ export const ContactForm = () => {
       contact => contact.name.toLowerCase() === name.toLowerCase()
     );
     if (sameNames) {
-      alert(`${name}is already in contacts`);
+      toast(`${name}is already in contacts`);
       setName('');
       setNumber('');
       return;

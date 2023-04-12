@@ -4,18 +4,31 @@ import { ContactList } from './ContactList/ContactList';
 import { Conteiner } from './Conteiner.styled';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { selectContacts, selectIsLoading } from 'Redux/Contacts/Selectors';
+import {
+  selectContacts,
+  selectError,
+  selectIsLoading,
+} from 'Redux/Contacts/Selectors';
 import { useEffect } from 'react';
 import { fetchContacts } from 'Redux/Contacts/Operations';
+import { Toaster, toast } from 'react-hot-toast';
 
 export const App = () => {
   const contacts = useSelector(selectContacts);
   const dispatch = useDispatch();
   const isLoading = useSelector(selectIsLoading);
+  const error = useSelector(selectError);
 
   useEffect(() => {
     dispatch(fetchContacts());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (!error) {
+      return;
+    }
+    toast(error);
+  }, [error]);
 
   return (
     <Conteiner>
@@ -29,6 +42,7 @@ export const App = () => {
         {contacts.length > 0 && <ContactList />}
         {isLoading && <p>Loading</p>}
       </div>
+      <Toaster />
     </Conteiner>
   );
 };
